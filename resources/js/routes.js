@@ -4,6 +4,8 @@ import homepage from "./components/homepage";
 import login from "./components/login";
 import register from "./components/register";
 import admin from "./components/admin/admin";
+import movieList from "./components/movie-list";
+import movieSingle from "./components/movie";
 
 export const routes = [
     {
@@ -21,6 +23,18 @@ export const routes = [
         name: 'register',
         path: '/register',
         component: register,
+        props: true,
+    },
+    {
+        name: 'movies',
+        path: '/movies',
+        component: movieList,
+        props: true,
+    },
+    {
+        name: 'singleMovie',
+        path: '/movies/:id',
+        component: movieSingle,
         props: true,
     },
     {

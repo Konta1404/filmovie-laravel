@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Actuallymab\LaravelComment\CanComment;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    use CanComment;
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +20,11 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name', 'email', 'password', 'is_admin'
     ];
+
+    public function canCommentWithoutApprove(): bool
+    {
+        return $this->isAdmin;
+    }
 
     /**
      * The attributes that should be hidden for arrays.

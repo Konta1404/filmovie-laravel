@@ -59,7 +59,6 @@
                         id="photo-input"
                         v-model="form.photo"
                         :state="states.photo"
-                        required
                     ></b-form-input>
                 </b-form-group>
             </form>
@@ -71,7 +70,8 @@
 
     export default {
         props: {
-            title: String
+            title: String,
+            method: { type: Function }
         },
         data(){
             return {
@@ -120,6 +120,7 @@
                             layout: 'topRight',
                             timeout: 1000
                         }).show();
+                        this.method();
                     })
                     .catch(error => {
                         new Noty({

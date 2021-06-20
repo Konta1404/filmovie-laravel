@@ -15,6 +15,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import User from './Helpers/User';
 import VoerroTagsInput from '@voerro/vue-tagsinput';
+import VueAgile from 'vue-agile';
 
 window.Vue = require('vue');
 
@@ -24,8 +25,10 @@ Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(VueAxios, axios)
 Vue.use(require('vue-moment'));
+Vue.use(VueAgile);
 window.User = User;
 Vue.component('tags-input', VoerroTagsInput);
+Vue.component('pagination', require('laravel-vue-pagination'));
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

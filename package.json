@@ -26,7 +26,9 @@
     "dependencies": {
         "@voerro/vue-tagsinput": "^2.2.0",
         "bootstrap-vue": "^2.15.0",
+        "laravel-vue-pagination": "^2.3.1",
         "noty": "^3.2.0-beta",
+        "vue-agile": "^1.1.3",
         "vue-axios": "^2.1.5",
         "vue-moment": "^4.1.0",
         "vue-router": "^3.3.4"

@@ -71,7 +71,8 @@
 
     export default {
         props: {
-            title: String
+            title: String,
+            method: { type: Function }
         },
         data(){
             return {
@@ -125,6 +126,7 @@
                             layout: 'topRight',
                             timeout: 1000
                         }).show();
+                        this.method();
                     })
                     .catch(error => {
                         new Noty({
@@ -133,7 +135,6 @@
                             timeout: 1000
                         }).show();
                     })
-
                 // Hide the modal manually
                 this.$nextTick(() => {
                     this.$bvModal.hide('modal-prevent-closing')

@@ -1,8 +1,8 @@
 <template>
     <div class="col-md-6">
-        <b-button v-b-modal.modal-prevent-closing>{{ this.$props.title }}</b-button>
+        <b-button v-b-modal.category-modal>{{ this.$props.title }}</b-button>
         <b-modal
-            id="modal-prevent-closing"
+            id="category-modal"
             ref="modal"
             v-bind:title="this.$props.title"
             @show="resetModal"
@@ -32,7 +32,8 @@
 
     export default {
         props: {
-          title: String
+            title: String,
+            method: { type: Function },
         },
         data(){
             return {
@@ -70,7 +71,8 @@
                             layout: 'topRight',
                             timeout: 1000
                         }).show();
-                        })
+                        this.method();
+                    })
                     .catch(error => {
                         new Noty({
                             text: error.message, type: 'alert',
@@ -81,7 +83,7 @@
 
                 // Hide the modal manually
                 this.$nextTick(() => {
-                    this.$bvModal.hide('modal-prevent-closing')
+                    this.$bvModal.hide('category-modal');
                 })
             }
         }

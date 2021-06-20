@@ -37,3 +37,6 @@ Route::post('/movies', 'MovieController@store');
 Route::get('/movies/{id}', 'MovieController@show');
 Route::put('/movies/{id}', 'MovieController@update');
 Route::delete('/movies/{id}', 'MovieController@destroy');
+Route::post('/movies/search', 'MovieController@search');
+Route::post('/movies/comments', 'MovieController@comment');
+Route::get('/movies/comments/{id}', 'MovieController@getComments');

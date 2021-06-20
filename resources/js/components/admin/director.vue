@@ -1,5 +1,8 @@
 <template>
     <b-container>
+        <b-row class="mb-3">
+            <director-modal :method="getDirectors" v-if="selectedObject === 'directors'" title="Add director"></director-modal>
+        </b-row>
         <b-table
             v-if="directors"
             show-empty
@@ -12,7 +15,7 @@
 
             <template v-slot:cell(actions)="row">
                 <b-button v-b-modal.edit-actor-modal v-on:click="saveId(row.item)" variant="info" edit-modal>Edit</b-button>
-                <b-button variant="danger" v-on:click="deleteCategory(row.item)">Delete</b-button>
+                <b-button variant="danger" v-on:click="deleteDirector(row.item)">Delete</b-button>
             </template>
 
             <template v-slot:row-details="row">
@@ -92,8 +95,15 @@
 <script>
     import Noty from "noty";
     import moment from 'moment';
+    import DirectorModal from "./director-modal";
 
     export default {
+        props: {
+          selectedObject: String
+        },
+        components:{
+            DirectorModal,
+        },
         data() {
             return {
                 directors: [],
@@ -179,7 +189,7 @@
                     this.$bvModal.hide('edit-actor-modal')
                 })
             },
-            deleteCategory(item) {
+            deleteDirector(item) {
                 Vue.axios.delete('/api/directors/' + item.id)
                     .then(res => {
                         new Noty({

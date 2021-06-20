@@ -8,14 +8,20 @@ class AppStorage {
         localStorage.setItem('user', user)
     }
 
-    store (token, user) {
+    storeIsUserAdmin(isAdmin) {
+        localStorage.setItem('isUserAdmin', isAdmin)
+    }
+
+    store (token, user, isAdmin) {
         this.storeToken(token);
         this.storeUser(user);
+        this.storeIsUserAdmin(isAdmin);
     }
 
     clear () {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        localStorage.removeItem('isUserAdmin');
     }
 
     getToken() {
@@ -24,6 +30,10 @@ class AppStorage {
 
     getUser() {
         localStorage.getItem('user');
+    }
+
+    getIsAdmin() {
+        localStorage.getItem('isUserAdmin');
     }
 
 }

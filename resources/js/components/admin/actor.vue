@@ -1,5 +1,8 @@
 <template>
     <b-container>
+        <b-row class="mb-3">
+            <actor-modal :method="getActors" v-if="selectedObject === 'actors'" title="Add actor"></actor-modal>
+        </b-row>
         <b-table
             v-if="actors"
             show-empty
@@ -12,7 +15,7 @@
 
             <template v-slot:cell(actions)="row">
                 <b-button v-b-modal.edit-actor-modal v-on:click="saveId(row.item)" variant="info" edit-modal>Edit</b-button>
-                <b-button variant="danger" v-on:click="deleteCategory(row.item)">Delete</b-button>
+                <b-button variant="danger" v-on:click="deleteActor(row.item)">Delete</b-button>
             </template>
 
             <template v-slot:row-details="row">
@@ -92,8 +95,12 @@
 <script>
     import Noty from "noty";
     import moment from 'moment';
+    import ActorModal from "./actor-modal";
 
     export default {
+        props: {
+            selectedObject: String
+        },
         data() {
             return {
                 actors: [],
@@ -118,6 +125,9 @@
         },
         mounted() {
             this.getActors();
+        },
+        components: {
+            ActorModal
         },
         methods: {
             saveId(item) {
@@ -179,7 +189,7 @@
                     this.$bvModal.hide('edit-actor-modal')
                 })
             },
-            deleteCategory(item) {
+            deleteActor(item) {
                 Vue.axios.delete('/api/actors/' + item.id)
                     .then(res => {
                         new Noty({
@@ -187,7 +197,7 @@
                             layout: 'topRight',
                             timeout: 1000
                         }).show();
-                        this.getCategories();
+                        this.getActors();
                     })
                     .catch(error => {
                         new Noty({

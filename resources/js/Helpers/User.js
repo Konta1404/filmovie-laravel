@@ -6,8 +6,9 @@ class User {
     responseAfterLogin(res) {
         const access_token = res.data.access_token;
         const username = res.data.name;
+        const isAdmin = res.data.is_admin;
         if (Token.isValid(access_token)) {
-            AppStorage.store(access_token, username);
+            AppStorage.store(access_token, username, isAdmin);
         }
     }
 
@@ -36,6 +37,15 @@ class User {
             return payload.sub
         }
         return false;
+    }
+
+    isAdmin() {
+        const storeToken = localStorage.getItem('isUserAdmin');
+        if(storeToken === '0') {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }

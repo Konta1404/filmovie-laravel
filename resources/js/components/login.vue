@@ -50,7 +50,10 @@
                     User.responseAfterLogin(res);
                     this.$router.push({ name: 'home'});
                 })
-                .catch(error => this.validatioError = error.response.data)
+                .catch(error => {
+                    console.log(error);
+                    this.validatioError = error.response.data;
+                })
           }
         }
     }

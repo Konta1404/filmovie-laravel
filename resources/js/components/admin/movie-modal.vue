@@ -14,7 +14,7 @@
                     :state="states.nameState"
                     label="Name"
                     label-for="first-name-input"
-                    invalid-feedback="First name is required"
+                    invalid-feedback="Name name is required"
                 >
                     <b-form-input
                         id="first-name-input"
@@ -88,17 +88,20 @@
                 <label>Select directors</label>
                 <tags-input element-id="tags"
                             v-model="formDirectors"
+                            placeholder="Add directors"
                             :existing-tags="directors"
                             :only-existing-tags="true"
                             :typeahead="true"></tags-input>
                 <label>Select actors</label>
                 <tags-input element-id="tags"
                             v-model="formActors"
+                            placeholder="Add actors"
                             :existing-tags="actors"
                             :only-existing-tags="true"
                             :typeahead="true"></tags-input>
                 <label>Select categories</label>
                 <tags-input element-id="tags"
+                            placeholder="Add categories"
                             v-model="formCategories"
                             :existing-tags="categories"
                             :only-existing-tags="true"
@@ -109,11 +112,11 @@
 </template>
 <script>
     import Noty from 'noty';
-    import director from "./director";
 
     export default {
         props: {
-            title: String
+            title: String,
+            method: { type: Function }
         },
         data(){
             return {
@@ -130,6 +133,7 @@
                     year: '',
                     rating: 1,
                     poster: '',
+                    description: '',
                     slider_image: ''
                 },
                 formDirectors: [],
@@ -152,6 +156,8 @@
             checkFormValidity() {
                 const valid = this.$refs.form.checkValidity()
                 this.states.nameState = valid
+
+                console.log(this.$refs.form.checkValidity());
 
                 if(this.form.rating < 1 || this.form.rating > 10) {
                     this.states.ratingState = false;
@@ -207,6 +213,9 @@
                     poster: '',
                     slider_image: ''
                 };
+                this.formDirectors = [],
+                this.formActors = [],
+                this.formCategories = []
             },
             handleOk(bvModalEvt) {
                 // Prevent modal from closing
@@ -217,12 +226,12 @@
             handleSubmit() {
                 // Exit when the form isn't valid
                 if (!this.checkFormValidity()) {
-                    return
+
                 }
 
-                this.form.actors = this.actors;
-                this.form.directos = this.directors;
-                this.form.categories = this.categories;
+                this.form.actors = this.formActors;
+                this.form.directors = this.formDirectors;
+                this.form.categories = this.formCategories;
 
                 Vue.axios.post('/api/movies', this.form)
                     .then(res => {
@@ -231,6 +240,7 @@
                             layout: 'topRight',
                             timeout: 1000
                         }).show();
+                        this.method();
                     })
                     .catch(error => {
                         new Noty({

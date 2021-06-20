@@ -16,9 +16,9 @@ class CreateActsTable extends Migration
         Schema::create('acts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('actor_id')->unsigned();
-            $table->foreign('actor_id')->references('id')->on('actors');
+            $table->foreign('actor_id')->references('id')->on('actors')->onDelete('cascade');
             $table->unsignedBigInteger('movie_id')->unsigned();
-            $table->foreign('movie_id')->references('id')->on('movies');
+            $table->foreign('movie_id')->references('id')->on('movies')->onDelete('cascade');
             $table->timestamps();
         });
     }

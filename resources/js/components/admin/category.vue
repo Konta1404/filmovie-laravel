@@ -1,6 +1,9 @@
 <template>
     <b-container>
         <!-- User Interface controls -->
+        <b-row class="mb-3">
+            <category-modal :method="getCategories" v-if="selectedObject === 'category'" title="Add category"></category-modal>
+        </b-row>
         <b-table
             v-if="categories"
             show-empty
@@ -52,17 +55,25 @@
 <script>
     import Noty from "noty";
     import moment from 'moment';
+    import CategoryModal from "./category-modal";
     export default {
+        props:{
+            selectedObject: String
+        },
         data() {
             return {
                 categories: [],
                 fields: ['id', 'name', 'created_at' , 'updated_at', 'actions'],
                 name: '',
-                categoryItem: {}
+                categoryItem: {},
             }
         },
         mounted() {
             this.getCategories();
+            console.log(this.selectedObject)
+        },
+        components: {
+            CategoryModal
         },
         methods: {
             saveId(item) {
@@ -114,7 +125,6 @@
                             layout: 'topRight',
                             timeout: 1000
                         }).show();
-                        this.getCategories();
                     })
                     .catch(error => {
                         new Noty({
@@ -126,7 +136,8 @@
 
                 // Hide the modal manually
                 this.$nextTick(() => {
-                    this.$bvModal.hide('modal-prevent-closing')
+                    this.$bvModal.hide('edit-modal')
+                    this.getCategories();
                 })
             },
             deleteCategory(item) {
